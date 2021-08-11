@@ -27,10 +27,11 @@ class Cafe(db.Model):
     def to_dict(self):
         return {column.name: getattr(self, column.name) for column in self.__table__.columns}
 
+
 @app.route("/")
 def home():
     return render_template("index.html")
-    
+
 
 ## HTTP GET - Read Record
 
@@ -40,10 +41,12 @@ def random_cafe():
     random_cafe = random.choice(all_cafes)
     return jsonify(cafe=random_cafe.to_dict())
 
+
 @app.route('/all')
 def all_cafes():
     all_cafes = db.session.query(Cafe).all()
     return jsonify(cafes=[cafe.to_dict() for cafe in all_cafes])
+
 
 @app.route('/search')
 def find_cafe():
@@ -72,6 +75,7 @@ def post_new_cafe():
     db.session.add(new_cafe)
     db.session.commit()
     return jsonify(response={"success": "Successfully added the new cafe."})
+
 
 ## HTTP PUT/PATCH - Update Record
 
